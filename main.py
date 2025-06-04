@@ -20,3 +20,4 @@ pg=st.navigation([
     st.Page(page3, title="Recommandations Films", icon="🎬"),
 ])
 pg.run()
+
