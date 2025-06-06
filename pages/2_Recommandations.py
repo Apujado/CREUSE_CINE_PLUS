@@ -1,5 +1,5 @@
 import streamlit as st
-from urllib.parse import urlencode
+from urllib.parse import urlencode, quote_plus
 from streamlit_extras.switch_page_button import switch_page
 
 st.set_page_config(page_title="Recommandations", page_icon="🎬", layout="wide")
