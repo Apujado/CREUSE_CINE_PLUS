@@ -6,13 +6,13 @@ st.set_page_config(page_title="Recommandations", page_icon="🎬", layout="wide"
 
 st.title("Movies 4 U")
 st.subheader("Recommandations")
-st.write("""Cette rubrique vous propose une selection de films basé sur l'analyse des données précédentes.
-Veuillez choisir un genre puis un pays d'origine.
-Les recommandations sont faites en tenant compte des préférences des utilisateurs.trices.
-Tous les contenus proposés sont soit en langue française soit doublés ou en version originale sous-titrés en français. 
-L'affichage des films se fait par ordre de note moyenne décroissante.
-Vous pouvez consulter la fiche du film en le sélectionnant grâce au bouton "Voir" situé sous l'affiche.
-Vous accéderez ainsi également à une suggestion de 5 autres films que vous pourriez aussi apprécier.""")
+st.write("""Cette rubrique vous propose une selection de films basée sur l'analyse des données précédentes.
+Veuillez choisir un genre puis un pays d'origine pour filtrer la liste des 9 269 films disponibles.
+
+Tous les contenus proposés sont soit en langue française soit doublés, ou en version originale sous-titrés français. 
+L'affichage des films se fait pas ordre de popularité décroissant et est limité au Top 10.
+La fiche du film apparaitra en dessous après avoir cliqué sur le bouton "Voir fiche". Un retour en arrière est possible.
+Une suggestion de 5 autres films que vous pourriez aussi apprécier vous sera également faite.""")
 
 import pandas as pd 
 df = pd.read_parquet('C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/films_groupes.parquet')
@@ -77,3 +77,44 @@ if st.session_state.film_selectionne is not None:
     if st.button("Fermer la fiche", key="fermer_fiche"):
         st.session_state.film_selectionne = None
         st.rerun()
+
+#integration de la suggestion de 5 films complémenetaires à base ML NLP sur les synopsis 
+import nltk
+from nltk.stem import SnowballStemmer
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+import string
+
+nltk.download('punkt')
+nltk.download('stopwords')
+
+stem_en = SnowballStemmer("english")
+stop_words = set(stopwords.words('english'))
+
+def clean(synopsis):
+    tokens = word_tokenize(synopsis.lower())
+    tokens = [word for word in tokens if word not in stop_words and word not in string.punctuation]
+    stemmed_tokens = [stem_en.stem(word) for word in tokens]
+    return " ".join(stemmed_tokens)
+
+df['synopsis_clean']=df['synopsis'].apply(clean)
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+vectorizer = TfidfVectorizer()
+tfidf_matrix = vectorizer.fit_transform(df['synopsis_clean'])
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Exemple : l'utilisateur a sélectionné le film avec l’index i
+def recommander_films(index_film, tfidf_matrix, df, n=5):
+    similarities = cosine_similarity(tfidf_matrix[index_film], tfidf_matrix).flatten()
+    similar_indices = similarities.argsort()[::-1][1:n+1]
+    return df.iloc[similar_indices]
+
+# Supposons que l’utilisateur a cliqué sur un film au titre connu :
+titre_selectionne = st.session_state.selected_film
+index_film = df[df['titre_intl'] == titre_selectionne].index[0]
+
+reco = recommander_films(index_film, tfidf_matrix, df)
+st.write("🎬 Films que vous pourriez aimer :")
+for _, row in reco.iterrows():
+    st.write(f"**{row['titre_intl']}** - {row['genres']}")
