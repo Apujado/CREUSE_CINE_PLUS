@@ -1,6 +1,6 @@
 import streamlit as st
-from urllib.parse import urlencode, quote_plus
-from streamlit_extras.switch_page_button import switch_page
+from urllib.parse import quote_plus,unquote_plus
+
 
 st.set_page_config(page_title="Recommandations", page_icon="🎬", layout="wide")
 
@@ -29,14 +29,16 @@ pays_choisi= st.selectbox("**Veuillez choisir l'origine du film souhaité**",pay
 df_filtre2 = df_filtre[df_filtre["pays"] == pays_choisi]
 st.write(f"Nombre de films disponibles pour le pays {pays_choisi} : {len(df_filtre2)}")
 
-# affichage des films filtrés sous forme de vignettes avec l'affiche du film et un bouton qui inclue le titre et qui renvoie vers la fiche du film 
+# affichage des films filtrés sous forme de vignettes avec l'affiche du film et un bouton qui inclue le titre et qui envoie vers la fiche du film 
 
 base_url = "https://image.tmdb.org/t/p/w500"
+if "film_selectionne" not in st.session_state:
+    st.session_state.film_selectionne = None
 
 st.markdown("### Résultats correspondants :")
-df_filtre2 = df_filtre2.sort_values(by='popularite', limit = 10, ascending=False) 
+df_filtre2 = df_filtre2.sort_values(by='popularite', ascending=False) .head(10)
 
-nb_par_ligne = 5 
+nb_par_ligne = 5
 lignes = [df_filtre2.iloc[i:i+nb_par_ligne] for i in range(0, len(df_filtre2), nb_par_ligne)]
 
 for bloc in lignes:
@@ -46,10 +48,32 @@ for bloc in lignes:
             if pd.notna(ligne['affiche']):
                 image_url = base_url + ligne['affiche']
                 st.image(image_url, width=300)
-            st.caption(ligne['titre_intl']) 
+            st.caption(ligne['titre_intl'])
 
-            if st.button(f"Voir fiche : {ligne['titre_intl']}", key=index):
-                st.experimental_set_query_params(film=quote_plus(ligne["titre_intl"]))
-                switch_page("4_Fiche_Films")
-    
+            if st.button(f"Voir fiche : {ligne['titre_intl']}", key=f"voir_{index}"):
+                st.session_state.film_selectionne = ligne
 
+
+if st.session_state.film_selectionne is not None:
+    film = st.session_state.film_selectionne
+    with st.expander(f"🎞️ Fiche du film : {film['titre_intl']}", expanded=True):
+        st.markdown(f"**Titre original** : *{film['original_title']}*")
+
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            st.markdown(f"**Année de sortie** : {film['annee de sortie']}")
+            st.markdown(f"**Durée** : {film['duree']} min")
+            st.markdown(f"**Genres** : {film['genres']}")
+            st.markdown(f"**Pays** : {film['pays']}")
+            st.markdown(f"**Production** : {film['societe_prod']}")
+            st.markdown(f"**Casting** : {film['prenom_nom']} ({film['role']})")
+        with col2:
+            st.subheader("Synopsis")
+            st.write(film["synopsis"])
+            st.markdown(f"**Note** : ⭐ {film['noteMoyenne']:.2f} ({int(film['nbre_votes'])} votes)")
+            st.markdown(f"**Popularité** : 🔥 {film['popularite']:.2f}")
+        
+         
+    if st.button("Fermer la fiche", key="fermer_fiche"):
+        st.session_state.film_selectionne = None
+        st.rerun()
