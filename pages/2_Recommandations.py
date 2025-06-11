@@ -20,12 +20,12 @@ df = pd.read_parquet('C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/
 #creation des 2 filtres sur le genre et le pays car il y un choix de 9600 films dans la base de données 
 
 df["genre_principal"] = df["genres"].str.split(",").str[0]
-genre_choisi = st.selectbox("Veuillez choisir le genre souhaité", sorted(df["genre_principal"].unique()))
+genre_choisi = st.selectbox("**Veuillez choisir le genre souhaité**", sorted(df["genre_principal"].unique()))
 df_filtre = df[df["genre_principal"] == genre_choisi]
 st.write(f"Nombre de films disponibles pour le genre {genre_choisi} : {len(df_filtre)}")
 
 pays_disponibles=sorted(df_filtre['pays'].unique())
-pays_choisi= st.selectbox("Veuillez choisir l'origine du film souhaité",pays_disponibles)
+pays_choisi= st.selectbox("**Veuillez choisir l'origine du film souhaité**",pays_disponibles)
 df_filtre2 = df_filtre[df_filtre["pays"] == pays_choisi]
 st.write(f"Nombre de films disponibles pour le pays {pays_choisi} : {len(df_filtre2)}")
 
@@ -34,9 +34,9 @@ st.write(f"Nombre de films disponibles pour le pays {pays_choisi} : {len(df_filt
 base_url = "https://image.tmdb.org/t/p/w500"
 
 st.markdown("### Résultats correspondants :")
-df_filtre2 = df_filtre2.sort_values(by='noteMoyenne', ascending=False)
+df_filtre2 = df_filtre2.sort_values(by='popularite', limit = 10, ascending=False) 
 
-nb_par_ligne = 5
+nb_par_ligne = 5 
 lignes = [df_filtre2.iloc[i:i+nb_par_ligne] for i in range(0, len(df_filtre2), nb_par_ligne)]
 
 for bloc in lignes:
