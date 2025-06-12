@@ -1,6 +1,58 @@
 import streamlit as st
-from urllib.parse import quote_plus,unquote_plus
+import pandas as pd 
+import nltk
+from nltk.stem import SnowballStemmer
+from nltk.tokenize import word_tokenize,sent_tokenize
+from nltk.corpus import stopwords
+import string
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
+df = pd.read_parquet('C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/films_groupes.parquet')
+df['medaille'] = df['noteMoyenne'].apply(lambda x:'bronze' if x<5.6 else 'argent' if x>=5.6 and x<=6.3 else 'or' if x>6.3 and x<=6.8 else 'platine' if x>6.8 else 'non classe')
+df['medaille'].value_counts()
+
+#ML pour la recommandation de films 
+nltk.download('punkt')
+nltk.download('stopwords')
+
+stem_en = SnowballStemmer("english")
+stop_words = set(stopwords.words('english'))
+
+def clean(synopsis):
+    tokens = word_tokenize(synopsis.lower(), language='english')
+    tokens = [word for word in tokens if word not in stop_words and word not in string.punctuation]
+    stemmed_tokens = [stem_en.stem(word) for word in tokens]
+    return " ".join(stemmed_tokens)
+
+# Fonction de recommandation
+def recommander_films(titre_film, df, n=5):
+    if titre_film not in df['original_title'].values:
+        st.warning("Film non trouvé.")
+
+    df_temp = df.copy()
+    df_temp['synopsis_clean'] = df_temp['synopsis'].apply(clean)
+
+    # Vectorisation TF-IDF sur les synopsis nettoyés
+    tfidf = TfidfVectorizer(stop_words='english')
+    tfidf_matrix = tfidf.fit_transform(df_temp['synopsis_clean'])
+
+    # Trouver l'index du film
+    idx = df[df['original_title'] == titre_film].index[0]
+
+    # Calcul de similarité cosine
+    cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+
+    # Récupérer les scores de similarité
+    sim_scores = list(enumerate(cosine_sim[idx]))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    
+    # Exclure le film lui-même et récupérer les n plus similaires
+    top_indices = [i for i, score in sim_scores[1:n+1]]
+    
+    return df_temp.iloc[top_indices]
+
+#Remplissage de la page 
 
 st.set_page_config(page_title="Recommandations", page_icon="🎬", layout="wide")
 
@@ -14,8 +66,7 @@ L'affichage des films se fait pas ordre de popularité décroissant et est limit
 La fiche du film apparaitra en dessous après avoir cliqué sur le bouton "Voir fiche". Un retour en arrière est possible.
 Une suggestion de 5 autres films que vous pourriez aussi apprécier vous sera également faite.""")
 
-import pandas as pd 
-df = pd.read_parquet('C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/films_groupes.parquet')
+
 
 #creation des 2 filtres sur le genre et le pays car il y un choix de 9600 films dans la base de données 
 
@@ -53,9 +104,18 @@ for bloc in lignes:
             if st.button(f"Voir fiche : {ligne['titre_intl']}", key=f"voir_{index}"):
                 st.session_state.film_selectionne = ligne
 
-
+ # 🔽 Ce bloc est **en dehors** de la double boucle, mais **au même niveau** que `for bloc in lignes:`
 if st.session_state.film_selectionne is not None:
     film = st.session_state.film_selectionne
+    emoji_medaille = {
+        'platine': '🏆',
+        'or': '🥇',
+        'argent': '🥈',
+        'bronze': '🥉'
+    }
+    medaille = film['medaille']
+    emoji = emoji_medaille.get(medaille, '')
+
     with st.expander(f"🎞️ Fiche du film : {film['titre_intl']}", expanded=True):
         st.markdown(f"**Titre original** : *{film['original_title']}*")
 
@@ -70,38 +130,39 @@ if st.session_state.film_selectionne is not None:
         with col2:
             st.subheader("Synopsis")
             st.write(film["synopsis"])
-            st.markdown(f"**Note** : ⭐ {film['noteMoyenne']:.2f} ({int(film['nbre_votes'])} votes)")
             st.markdown(f"**Popularité** : 🔥 {film['popularite']:.2f}")
-        
-         
-    if st.button("Fermer la fiche", key="fermer_fiche"):
-        st.session_state.film_selectionne = None
-        st.rerun()
+            st.markdown(f"**Médaille** : {emoji}")
+            st.markdown(f"**Nombre de votes** : {int(film['nbre_votes'])}")
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+        if st.button("Fermer la fiche", key="fermer_fiche"):
+            st.session_state.film_selectionne = None
+            st.experimental_rerun()          
 
-# Vectorisation TF-IDF
-tfidf = TfidfVectorizer(stop_words='english')
-tfidf_matrix = tfidf.fit_transform(df['synopsis_clean'])
+        recommandations = recommander_films(film['original_title'], df)
 
-# Calcul de similarité 
-cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+        if not recommandations.empty:
+            st.markdown("### 🎯 Suggestions basées sur ce film :")
 
-# Fonction de recommandation
-def recommander_films(titre_film, df, n=5):
-    if titre_film not in df['original_title'].values:
-        print("Film non trouvé.")
-        return []
-    
-    # Trouver l'index du film
-    idx = df[df['original_title'] == titre_film].index[0]
+            nb_par_ligne = 5
+            lignes_reco = [recommandations.iloc[i:i+nb_par_ligne] for i in range(0, len(recommandations), nb_par_ligne)]
 
-    # Récupérer les scores de similarité
-    sim_scores = list(enumerate(cosine_sim[idx]))
-    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-    
-    # Exclure le film lui-même et récupérer les n plus similaires
-    top_indices = [i for i, score in sim_scores[1:n+1]]
-    
-    return df.iloc[top_indices][['original_title', 'synopsis_clean']]
+            for bloc in lignes_reco:
+                colonnes = st.columns(nb_par_ligne)
+                for i, (index, ligne) in enumerate(bloc.iterrows()):
+                    with colonnes[i]:
+                        if pd.notna(ligne['affiche']):
+                            image_url = base_url + ligne['affiche']
+                            st.image(image_url, width=300)
+
+                        emoji_medaille = {
+                            'platine': '🏆',
+                            'or': '🥇',
+                            'argent': '🥈',
+                            'bronze': '🥉'
+                        }
+                        medal_emoji = emoji_medaille.get(str(ligne['medaille']).lower(), '')
+                        st.caption(f"{ligne['titre_intl']} {medal_emoji}")
+
+                        if st.button(f"Voir fiche : {ligne['titre_intl']}", key=f"voir_reco_{index}"):
+                            st.session_state.film_selectionne = ligne
+                            st.experimental_rerun()
