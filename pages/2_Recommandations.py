@@ -78,43 +78,30 @@ if st.session_state.film_selectionne is not None:
         st.session_state.film_selectionne = None
         st.rerun()
 
-#integration de la suggestion de 5 films complémenetaires à base ML NLP sur les synopsis 
-import nltk
-from nltk.stem import SnowballStemmer
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-import string
-
-nltk.download('punkt')
-nltk.download('stopwords')
-
-stem_en = SnowballStemmer("english")
-stop_words = set(stopwords.words('english'))
-
-def clean(synopsis):
-    tokens = word_tokenize(synopsis.lower())
-    tokens = [word for word in tokens if word not in stop_words and word not in string.punctuation]
-    stemmed_tokens = [stem_en.stem(word) for word in tokens]
-    return " ".join(stemmed_tokens)
-
-df['synopsis_clean']=df['synopsis'].apply(clean)
 from sklearn.feature_extraction.text import TfidfVectorizer
-
-vectorizer = TfidfVectorizer()
-tfidf_matrix = vectorizer.fit_transform(df['synopsis_clean'])
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Exemple : l'utilisateur a sélectionné le film avec l’index i
-def recommander_films(index_film, tfidf_matrix, df, n=5):
-    similarities = cosine_similarity(tfidf_matrix[index_film], tfidf_matrix).flatten()
-    similar_indices = similarities.argsort()[::-1][1:n+1]
-    return df.iloc[similar_indices]
+# Vectorisation TF-IDF
+tfidf = TfidfVectorizer(stop_words='english')
+tfidf_matrix = tfidf.fit_transform(df['synopsis_clean'])
 
-# Supposons que l’utilisateur a cliqué sur un film au titre connu :
-titre_selectionne = st.session_state.selected_film
-index_film = df[df['titre_intl'] == titre_selectionne].index[0]
+# Calcul de similarité 
+cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
-reco = recommander_films(index_film, tfidf_matrix, df)
-st.write("🎬 Films que vous pourriez aimer :")
-for _, row in reco.iterrows():
-    st.write(f"**{row['titre_intl']}** - {row['genres']}")
+# Fonction de recommandation
+def recommander_films(titre_film, df, n=5):
+    if titre_film not in df['original_title'].values:
+        print("Film non trouvé.")
+        return []
+    
+    # Trouver l'index du film
+    idx = df[df['original_title'] == titre_film].index[0]
+
+    # Récupérer les scores de similarité
+    sim_scores = list(enumerate(cosine_sim[idx]))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    
+    # Exclure le film lui-même et récupérer les n plus similaires
+    top_indices = [i for i, score in sim_scores[1:n+1]]
+    
+    return df.iloc[top_indices][['original_title', 'synopsis_clean']]
