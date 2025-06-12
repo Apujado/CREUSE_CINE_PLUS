@@ -23,7 +23,12 @@ Sur la base des informations récoltées, vous pourrez affiner votre programmati
 
 st.subheader("Etapes du projet")
 st.markdown(""":point_right:**Etude de marché** : Analyse des tendances de consommation de cinéma dans la Creuse""")
-
-st.subheader("Personnes impliquées")
+st.markdown(""":point_right: Construire une base de données 
+            **Step 1**: Nettoyage, analyse et tri de base de donnée IMDB
+            **Step 2**: Jointure avec la bdd TMDB en lien avec les besoins futurs.""")
+st.markdown(""":point_right:**Etude de marché** : Analyse des tendances de consommation de cinéma dans la Creuse""")
+st.subheader("Parties prenantes et ressources")
 
 st.subheader("Outils utilisés")
+
+st.subheader("Accès public au repository")

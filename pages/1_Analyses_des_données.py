@@ -4,8 +4,12 @@ st.set_page_config(page_title="Data", page_icon="📊",layout="wide")
 
 st.title("Data 4 U")
 st.subheader(":one: Etude préliminaire du marché cinématographique en Creuse ")
+
+st.image("C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/MEDIA/Capture d'écran 2025-06-11 232052.png")
+st.image("C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/MEDIA/Capture d'écran 2025-06-11 232125.png")
 st.subheader(":two: Analyse de la base de données")
-st.write("""
+
+st.markdown("""
 Cette section présente une analyse de la base de données des films, mettant en évidence quelques tendances et caractéristiques spécifiques. 
 L'objectif est d'identifier des éléments clés qui pourraient influencer la programmation du cinéma.
 """)
@@ -16,6 +20,8 @@ df = pd.read_parquet('C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/
 
 st.markdown(""":bar_chart: Le dataset utilisé pour ce projet est un fichier Parquet issu des base IMDB et TMDB, contenant des informations sur les films, y compris les titres, les genres, les pays d'origine, les notes moyennes ainsi que d'autres attributs pertinents. Il a été nettoyé et préparé pour une analyse approfondie. Il représente un référencement de 9 269 films.""")
 
+st.markdown(""":point_right: **Représentativité de la provenance des contenus**""")
+st.markdown(""":point_right: **Représentativité par genre principal**""")
 
 st.markdown(""":point_right: **Identification des acteurs les plus présents et les périodes associées**""")
 
