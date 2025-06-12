@@ -11,6 +11,8 @@ st.subheader(":one: Etude préliminaire du marché cinématographique en Creuse 
 
 st.image("C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/MEDIA/Capture d'écran 2025-06-11 232052.png")
 st.image("C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/MEDIA/Capture d'écran 2025-06-11 232125.png")
+st.markdown(""":loudspeaker:**Une préférence pour le cinéma Français qui s'accentue** avec en 2022 une part qui grimpe à 52%. """)
+st.image("C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION\Wild Code School/CREUSE_CINE_PLUS/MEDIA/Capture d'écran 2025-06-12 203721.png")
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 st.subheader(":two: Analyse de la base de données")
 
@@ -101,6 +103,9 @@ line_chart = alt.Chart(df_grouped_duree).mark_line(point=True).encode(
 st.altair_chart(line_chart)
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-st.markdown(""":point_right: **Films les mieux notés et caractéristiques qu’ils partagent**""")
+st.markdown(""":point_right: **Films les mieux notés (médaille platine soit dans la bdd 2295 films ) et caractéristiques qu’ils partagent**""")
+df_best_film = df[df['medaille']=='platine']
 
+#----------------------------------------------------------------------------------------------------------------------------------------------------
+st.markdown(""":point_right: **A partir des résultats construire un modèle qui prédise le top ou flop**""")
 

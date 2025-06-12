@@ -63,7 +63,7 @@ Veuillez choisir un genre puis un pays d'origine pour filtrer la liste des 9 269
 Tous les contenus proposés sont soit en langue française soit doublés, ou en version originale sous-titrés français. 
 L'affichage des films se fait pas ordre de popularité décroissant et est limité au Top 10.
 La fiche du film apparaitra en dessous après avoir cliqué sur le bouton "Voir fiche". Un retour en arrière est possible.
-Une suggestion de 5 autres films que vous pourriez aussi apprécier vous sera également faite.""")
+Une suggestion de 5 autres films que vous pourriez aussi apprécier vous sera également faite. Soyez patients le temps que le petit robot travaille et trouve la solution.:female-detective:""")
 
 
 
