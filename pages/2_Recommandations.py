@@ -7,10 +7,9 @@ from nltk.corpus import stopwords
 import string
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 df = pd.read_parquet('C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/films_groupes.parquet')
 df['medaille'] = df['noteMoyenne'].apply(lambda x:'bronze' if x<5.6 else 'argent' if x>=5.6 and x<=6.3 else 'or' if x>6.3 and x<=6.8 else 'platine' if x>6.8 else 'non classe')
-df['medaille'].value_counts()
 
 #ML pour la recommandation de films 
 nltk.download('punkt')
@@ -52,12 +51,12 @@ def recommander_films(titre_film, df, n=5):
     
     return df_temp.iloc[top_indices]
 
-#Remplissage de la page 
+#Remplissage de la page ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 st.set_page_config(page_title="Recommandations", page_icon="🎬", layout="wide")
 
-st.title("Movies 4 U")
-st.subheader("Recommandations")
+st.markdown("<h1 style='text-align: center;color: black;'>RECOMMANDATIONS</h1>",unsafe_allow_html=True)
+
 st.write("""Cette rubrique vous propose une selection de films basée sur l'analyse des données précédentes.
 Veuillez choisir un genre puis un pays d'origine pour filtrer la liste des 9 269 films disponibles.
 
@@ -68,7 +67,7 @@ Une suggestion de 5 autres films que vous pourriez aussi apprécier vous sera é
 
 
 
-#creation des 2 filtres sur le genre et le pays car il y un choix de 9600 films dans la base de données 
+#creation des 2 filtres sur le genre et le pays car il y un choix de 9600 films dans la base de données -------------------------------------------------------------------------------------
 
 df["genre_principal"] = df["genres"].str.split(",").str[0]
 genre_choisi = st.selectbox("**Veuillez choisir le genre souhaité**", sorted(df["genre_principal"].unique()))
@@ -80,7 +79,7 @@ pays_choisi= st.selectbox("**Veuillez choisir l'origine du film souhaité**",pay
 df_filtre2 = df_filtre[df_filtre["pays"] == pays_choisi]
 st.write(f"Nombre de films disponibles pour le pays {pays_choisi} : {len(df_filtre2)}")
 
-# affichage des films filtrés sous forme de vignettes avec l'affiche du film et un bouton qui inclue le titre et qui envoie vers la fiche du film 
+# affichage des films filtrés sous forme de vignettes avec l'affiche du film et un bouton qui inclue le titre et qui envoie vers la fiche du film ------------------------------------------------
 
 base_url = "https://image.tmdb.org/t/p/w500"
 if "film_selectionne" not in st.session_state:
@@ -104,11 +103,11 @@ for bloc in lignes:
             if st.button(f"Voir fiche : {ligne['titre_intl']}", key=f"voir_{index}"):
                 st.session_state.film_selectionne = ligne
 
- # 🔽 Ce bloc est **en dehors** de la double boucle, mais **au même niveau** que `for bloc in lignes:`
+
 if st.session_state.film_selectionne is not None:
     film = st.session_state.film_selectionne
     emoji_medaille = {
-        'platine': '🏆',
+        'platine': '💖',
         'or': '🥇',
         'argent': '🥈',
         'bronze': '🥉'
@@ -116,7 +115,7 @@ if st.session_state.film_selectionne is not None:
     medaille = film['medaille']
     emoji = emoji_medaille.get(medaille, '')
 
-    with st.expander(f"🎞️ Fiche du film : {film['titre_intl']}", expanded=True):
+    with st.expander(f"🎞️ Fiche : {film['titre_intl']}", expanded=True):
         st.markdown(f"**Titre original** : *{film['original_title']}*")
 
         col1, col2 = st.columns([1, 2])
@@ -136,12 +135,12 @@ if st.session_state.film_selectionne is not None:
 
         if st.button("Fermer la fiche", key="fermer_fiche"):
             st.session_state.film_selectionne = None
-            st.experimental_rerun()          
+            st.rerun()          
 
         recommandations = recommander_films(film['original_title'], df)
 
         if not recommandations.empty:
-            st.markdown("### 🎯 Suggestions basées sur ce film :")
+            st.markdown("### 🎁 Voici des suggestions qui pourraient vous intéresser:")
 
             nb_par_ligne = 5
             lignes_reco = [recommandations.iloc[i:i+nb_par_ligne] for i in range(0, len(recommandations), nb_par_ligne)]
@@ -155,7 +154,7 @@ if st.session_state.film_selectionne is not None:
                             st.image(image_url, width=300)
 
                         emoji_medaille = {
-                            'platine': '🏆',
+                            'platine': '💖',
                             'or': '🥇',
                             'argent': '🥈',
                             'bronze': '🥉'
@@ -163,6 +162,4 @@ if st.session_state.film_selectionne is not None:
                         medal_emoji = emoji_medaille.get(str(ligne['medaille']).lower(), '')
                         st.caption(f"{ligne['titre_intl']} {medal_emoji}")
 
-                        if st.button(f"Voir fiche : {ligne['titre_intl']}", key=f"voir_reco_{index}"):
-                            st.session_state.film_selectionne = ligne
-                            st.experimental_rerun()
+                       
