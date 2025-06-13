@@ -5,6 +5,7 @@ df = pd.read_parquet('C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/
 
 st.set_page_config(page_title='Projet',page_icon='🚧',layout='wide')
 st.markdown("<h1 style='text-align: center;color: black;'>CREUSE CINE PLUS</h1>",unsafe_allow_html=True)
+st.subheader("**WORK IN PROGRESS**:construction:")
 st.subheader("Contexte et objectifs")
 st.markdown(""":cinema:
 Un cinéma en perte de vitesse situé dans la Creuse vous demande de créer un moteur de recommandations de films qui à terme, enverra des notifications aux clients via Internet.
@@ -47,7 +48,7 @@ with col1:
     st.image("C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/MEDIA/th.jpeg")
 
 with col2:
-    st.markdown("<h2 style='text-align: center; color: grey;'>Collecte, nettoyage, création et exploitation de la base de données</h2>",unsafe_allow_html=True)
+    st.markdown(":snake::panda_face:<h2 style='text-align: center; color: grey;'> Collecte, nettoyage, création et exploitation de la base de données</h2>",unsafe_allow_html=True)
     st.image("C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/MEDIA/th (1).jpeg")
 
 col3,col4=st.columns(2, border=True,vertical_alignment="top")   
