@@ -1,9 +1,8 @@
 import streamlit as st
 import pandas as pd 
 import os
-st.write(os.listdir())
 
-df = pd.read_parquet('C:/Users/pujado/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/films_groupes.parquet')
+df = pd.read_parquet('films_groupes.parquet.')
 
 st.set_page_config(page_title='Projet',page_icon='🚧',layout='wide')
 st.markdown("<h1 style='text-align: center;color: black;'>CREUSE CINE PLUS</h1>",unsafe_allow_html=True)
