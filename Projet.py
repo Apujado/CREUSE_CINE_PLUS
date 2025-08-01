@@ -1,12 +1,10 @@
 import streamlit as st
 import pandas as pd 
+import os
+st.write(os.listdir())
 
+df = pd.read_parquet('C:/Users/pujado/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/films_groupes.parquet')
 
-
-uploaded_file = st.file_uploader("C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/films_groupes.parquet", type=["parquet"])
-if uploaded_file is not None:
-    df = pd.read_parquet(uploaded_file)
-    st.write(df.head())
 st.set_page_config(page_title='Projet',page_icon='🚧',layout='wide')
 st.markdown("<h1 style='text-align: center;color: black;'>CREUSE CINE PLUS</h1>",unsafe_allow_html=True)
 st.subheader("**WORK IN PROGRESS**:construction:")
