@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd 
 import os
 
-df = pd.read_parquet('films_groupes.parquet.')
+df = pd.read_parquet('films_groupes.parquet')
 
 st.set_page_config(page_title='Projet',page_icon='🚧',layout='wide')
 st.markdown("<h1 style='text-align: center;color: black;'>CREUSE CINE PLUS</h1>",unsafe_allow_html=True)
