@@ -1,6 +1,13 @@
 import streamlit as st
 import pandas as pd 
 import os
+from pathlib import Path
+img_path = Path(__file__).parent / "MEDIA" / "145101.png"
+img_path_1= Path(__file__).parent / "MEDIA" / "th.jpeg"
+img_path_2= Path(__file__).parent / "MEDIA" / "th_1.jpeg"
+img_path_3= Path(__file__).parent / "MEDIA" / "deepnote.jpeg"
+img_path_4= Path(__file__).parent / "MEDIA" / "github.jpeg"
+
 
 df = pd.read_parquet('films_groupes.parquet')
 
@@ -35,7 +42,7 @@ st.markdown("""**Step 2**: Tester différents formats de NLP et de tokenization 
 
 st.subheader("Gestion du projet")
 st.markdown("""Plannification des sprints et outils de brainstorming avec Trello et Miro""")
-st.image("MEDIA/Capture_d_ecran_2025-06-12_145101.png")
+st.image(str(img_path))
 
 st.subheader("Parties prenantes")
 st.markdown("<h5 style='text-align: left; color: brown;'>Etude de Marché</h>: <h6 style='text-align: left; color:black;'>Yrayou Yeo, Asah Ade, Georges Epee et Aurélie Pujado</h>",unsafe_allow_html=True)
@@ -46,20 +53,20 @@ st.subheader("Principaux Software utilisés")
 col1, col2 = st.columns(2, border=True,vertical_alignment="top")
 with col1:
     st.markdown("<h2 style='text-align: center; color: grey;'>Collecte, tri et exploitation des données pour l'étude</h2>",unsafe_allow_html=True)
-    st.image("MEDIA/th.jpeg")
+    st.image(str(img_path_1))
 
 with col2:
     st.markdown(":snake::panda_face:<h2 style='text-align: center; color: grey;'> Collecte, nettoyage, création et exploitation de la base de données</h2>",unsafe_allow_html=True)
-    st.image("MEDIA/th_1.jpeg")
+    st.image(str(img_path_2))
 
 col3,col4=st.columns(2, border=True,vertical_alignment="top")   
 with col3:
     st.markdown("<h2 style='text-align: center; color: grey;'>Intégration à Streamlit</h2>",unsafe_allow_html=True)
-    st.image("MEDIA/deepnote.jpeg")
+    st.image(str(img_path_3))
 
 with col4:
     st.markdown("<h2 style='text-align: center; color: grey;'>Hébergement du projet</h2>",unsafe_allow_html=True)
-    st.image("MEDIA/github.jpeg")
+    st.image(str(img_path_4))
 
 
 

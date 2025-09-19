@@ -3,16 +3,24 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
 import altair as alt
+from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parent.parent  
+MEDIA_DIR = ROOT_DIR / "MEDIA"
+
+img_path_5 = MEDIA_DIR / "203721.png"
+img_path_6 = MEDIA_DIR / "232052.png"
+img_path_7 = MEDIA_DIR / "232125.png"
 
 st.set_page_config(page_title="Data", page_icon="📊",layout="wide")
 
 st.markdown("<h1 style='text-align: center;color: black;'>ANALYSES</h1>",unsafe_allow_html=True)
 st.subheader(":one: Etude préliminaire du marché cinématographique en Creuse ")
 
-st.image("MEDIA/Capture_d_ecran_2025-06-11_232052.png")
-st.image("MEDIA/Capture_d_ecran_2025-06-11_232125.png")
+st.image(str(img_path_6))
+st.image(str(img_path_7))
 st.markdown(""":loudspeaker:**Une préférence pour le cinéma Français qui s'accentue** avec en 2022 une part qui grimpe à 52%. """)
-st.image("MEDIA/Capture_d_ecran _2025-06-12_203721.png")
+st.image(str(img_path_5))
 st.markdown(":mag_right:**Conclusions et préconnisations:  pour le filtrage des bases de données, les variables à conserver et les choix des contenus à selectionner / critères retenus**:construction:")
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 st.subheader(":two: Analyse de la base de données")
