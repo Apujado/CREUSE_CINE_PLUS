@@ -35,7 +35,7 @@ st.markdown("""**Step 2**: Tester différents formats de NLP et de tokenization 
 
 st.subheader("Gestion du projet")
 st.markdown("""Plannification des sprints et outils de brainstorming avec Trello et Miro""")
-st.image("MEDIA\Capture d'écran 2025-06-12 145101.png")
+st.image("MEDIA/Capture_d_ecran_2025-06-12_145101.png")
 
 st.subheader("Parties prenantes")
 st.markdown("<h5 style='text-align: left; color: brown;'>Etude de Marché</h>: <h6 style='text-align: left; color:black;'>Yrayou Yeo, Asah Ade, Georges Epee et Aurélie Pujado</h>",unsafe_allow_html=True)
@@ -50,16 +50,16 @@ with col1:
 
 with col2:
     st.markdown(":snake::panda_face:<h2 style='text-align: center; color: grey;'> Collecte, nettoyage, création et exploitation de la base de données</h2>",unsafe_allow_html=True)
-    st.image("MEDIA/th (1).jpeg")
+    st.image("MEDIA/th_1.jpeg")
 
 col3,col4=st.columns(2, border=True,vertical_alignment="top")   
 with col3:
     st.markdown("<h2 style='text-align: center; color: grey;'>Intégration à Streamlit</h2>",unsafe_allow_html=True)
-    st.image("MEDIA\deepnote.jpeg")
+    st.image("MEDIA/deepnote.jpeg")
 
 with col4:
     st.markdown("<h2 style='text-align: center; color: grey;'>Hébergement du projet</h2>",unsafe_allow_html=True)
-    st.image("MEDIA\github.jpeg")
+    st.image("MEDIA/github.jpeg")
 
 
 
