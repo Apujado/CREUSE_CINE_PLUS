@@ -10,7 +10,7 @@ st.markdown("<h1 style='text-align: center;color: black;'>ANALYSES</h1>",unsafe_
 st.subheader(":one: Etude préliminaire du marché cinématographique en Creuse ")
 
 st.image("MEDIA\Capture d'écran 2025-06-11 232052.png")
-st.image("MEDIA\Capture d'écran 2025-06-12 145101.png")
+st.image("MEDIA\Capture d'écran 2025-06-11 232125.png")
 st.markdown(""":loudspeaker:**Une préférence pour le cinéma Français qui s'accentue** avec en 2022 une part qui grimpe à 52%. """)
 st.image("MEDIA\Capture d'écran 2025-06-12 203721.png")
 st.markdown(":mag_right:**Conclusions et préconnisations:  pour le filtrage des bases de données, les variables à conserver et les choix des contenus à selectionner / critères retenus**:construction:")
