@@ -30,8 +30,9 @@ Cette section présente une analyse de la base de données des films, mettant en
 L'objectif est d'identifier des éléments clés qui pourraient influencer la programmation du cinéma.
 """)
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+file_path = ROOT_DIR / "films_groupes.parquet"
+df = pd.read_parquet(file_path)
 
-df = pd.read_parquet('C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/films_groupes.parquet')
 df['medaille'] = df['noteMoyenne'].apply(lambda x:'bronze' if x<5.6 else 'argent' if x>=5.6 and x<=6.3 else 'or' if x>6.3 and x<=6.8 else 'platine' if x>6.8 else 'non classe')
 df_best_film = df[df['medaille']=='platine']
 
