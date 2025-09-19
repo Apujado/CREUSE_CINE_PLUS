@@ -7,8 +7,13 @@ from nltk.corpus import stopwords
 import string
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parent.parent 
+file_path = ROOT_DIR / "films_groupes.parquet"
+df = pd.read_parquet(file_path)
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-df = pd.read_parquet('C:/Users/pujad/OneDrive - APS Consult/Documents/FORMATION/Wild Code School/CREUSE_CINE_PLUS/films_groupes.parquet')
+
 df['medaille'] = df['noteMoyenne'].apply(lambda x:'bronze' if x<5.6 else 'argent' if x>=5.6 and x<=6.3 else 'or' if x>6.3 and x<=6.8 else 'platine' if x>6.8 else 'non classe')
 
 #ML pour la recommandation de films 
