@@ -7,7 +7,7 @@
 🛠️ Technologies utilisées
 
 ⚙️ Fonctionnalités de l'application
-🛜 Lien de l'application
+🛜 Lien de l'application https://creusecineplus.streamlit.app/
 
 
 📦 Installation & Exécution
