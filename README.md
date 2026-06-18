@@ -38,6 +38,8 @@ Assurez-vous d'avoir Python 3.9 ou une version supérieure installée sur votre 
 ├── requirements.txt       # Liste des packages Python et dépendances requis
 └── README.md              # Documentation du projet
 
+```
+
  ## 🔄 Méthodologie
 Nous avons suivi une approche itérative et agile sur **7 semaines**, avec un fort focus collaboratif :
 * **Data Cleaning & Préparation :** Ingestion, traitement des valeurs manquantes et structuration des bases de données de films.
