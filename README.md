@@ -39,9 +39,7 @@ Assurez-vous d'avoir Python 3.9 ou une version supérieure installée sur votre 
 └── README.md              # Documentation du projet
 
  ## 🔄 Méthodologie
-
 Nous avons suivi une approche itérative et agile sur **7 semaines**, avec un fort focus collaboratif :
-
 * **Data Cleaning & Préparation :** Ingestion, traitement des valeurs manquantes et structuration des bases de données de films.
 * **Exploratory Data Analysis (EDA) :** Extraction d'insights business clés sur l'industrie cinématographique.
 * **Modélisation :** Conception, test et ajustement de l'algorithme de recommandation.
@@ -50,15 +48,12 @@ Nous avons suivi une approche itérative et agile sur **7 semaines**, avec un fo
 ---
 
 ## 👥 Équipe & Crédits
-
 Projet développé par une équipe d'étudiants dans le cadre de la formation Data Analyst - **Wild Code School 2025**.
-
 * **Contributeurs :** Aurélie Pujado – Data Analyst
 
 ---
 
 ## 🔮 Perspectives
-
 * Intégration de modèles de filtrage collaboratif plus avancés pour affiner les recommandations.
 * Automatisation des flux d'ingestion de données (pipeline ETL léger).
 * Ajout d'analyses prédictives sur les taux de fréquentation potentiels des salles de cinéma.
@@ -66,5 +61,4 @@ Projet développé par une équipe d'étudiants dans le cadre de la formation Da
 ---
 
 ## 📄 Licence
-
 Ce projet est open-source sous licence MIT. Vous êtes libre de l'utiliser, le modifier ou le partager à condition d'en citer l'origine.
