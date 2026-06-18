@@ -26,11 +26,34 @@ Ce projet a été développé pour répondre à une problématique de dynamisati
 
 ## 📦 Installation & Exécution
 
-### 🔧 Prérequis
+## 🔧 Prérequis
 Assurez-vous d'avoir Python 3.9 ou une version supérieure installée sur votre machine.
 
-### 🚀 Setup
-1. **Cloner le dépôt :**
-```bash
-   git clone [https://github.com/VotreUsername/creuse-cine-plus.git](https://github.com/VotreUsername/creuse-cine-plus.git)
-   cd creuse-cine-plus
+## 📂 Structure du projet
+
+├── data/                  # Données brutes et jeux de données nettoyés
+├── notebooks/             # Notebooks d'exploration (EDA) et prototypage des modèles
+├── app.py                 # Script principal pour le lancement de l'application Streamlit
+├── requirements.txt       # Liste des packages Python et dépendances requis
+└── README.md              # Documentation du projet
+
+## 🔄 Méthodologie
+
+Nous avons suivi une approche itérative et agile sur 7 semaines, avec un fort focus collaboratif :
+Data Cleaning & Préparation : Ingestion, traitement des valeurs manquantes et structuration des bases de données de films.
+Exploratory Data Analysis (EDA) : Extraction d'insights business clés sur l'industrie cinématographique.
+Modélisation : Conception, test et ajustement de l'algorithme de recommandation.
+Déploiement Continu : Intégration du code et mise en production de l'interface sur Streamlit Cloud
+
+## 👥 Équipe & Crédits
+
+Projet développé par une équipe d'étudiants dans le cadre de la formation Data Analyst - Wild Code School 2025.
+Contributeurs : Aurélie Pujado – Data Analyst
+
+##🔮 Perspectives
+Intégration de modèles de filtrage collaboratif plus avancés pour affiner les recommandations.
+Automatisation des flux d'ingestion de données (pipeline ETL léger).
+Ajout d'analyses prédictives sur les taux de fréquentation potentiels des salles de cinéma.
+
+## 📄 Licence
+Ce projet est open-source sous licence MIT. Vous êtes libre de l'utiliser, le modifier ou le partager à condition d'en citer l'origine.
