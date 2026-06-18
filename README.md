@@ -32,11 +32,21 @@ Assurez-vous d'avoir Python 3.9 ou une version supérieure installée sur votre 
 ## 📂 Structure du projet
 
 ```text
-├── data/                  # Données brutes et jeux de données nettoyés
-├── notebooks/             # Notebooks d'exploration (EDA) et prototypage des modèles
-├── app.py                 # Script principal pour le lancement de l'application Streamlit
-├── requirements.txt       # Liste des packages Python et dépendances requis
-└── README.md              # Documentation du projet
+├── .devcontainer/         # Configuration de l'environnement de développement conteneurisé
+├── MEDIA/                 # Images, logos et ressources visuelles du projet
+├── pages/                 # Pages secondaires de l'application Streamlit
+│   ├── 1_Analyses_des_données.py
+│   └── 2_Recommandations.py
+├── .python-version        # Version de Python définie pour le projet
+├── FINAL_draft.tsv.gz     # Données brutes / intermédiaires compressées
+├── Notebook Final Cleaning.ipynb  # Traitement, nettoyage et préparation des données
+├── Notebook IMDB.ipynb    # Exploration des données IMDB et prototypage du modèle
+├── Projet.py              # Script principal (Home) de l'application Streamlit
+├── README.md              # Documentation du projet
+├── films_groupes.parquet  # Données nettoyées et optimisées au format Parquet
+├── movie_project_FINAL.tsv.gz # Jeu de données final compressé pour l'application
+├── pyproject.toml         # Configuration des dépendances et outils du projet
+└── uv.lock                # Fichier de verrouillage des dépendances (UV package manager)
 
 ```
 
