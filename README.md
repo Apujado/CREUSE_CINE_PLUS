@@ -31,6 +31,7 @@ Assurez-vous d'avoir Python 3.9 ou une version supérieure installée sur votre 
 
 ## 📂 Structure du projet
 
+```text
 ├── data/                  # Données brutes et jeux de données nettoyés
 ├── notebooks/             # Notebooks d'exploration (EDA) et prototypage des modèles
 ├── app.py                 # Script principal pour le lancement de l'application Streamlit
